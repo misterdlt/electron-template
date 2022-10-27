@@ -2,20 +2,30 @@
   "name": "electron-template",
   "version": "0.1.0",
   "private": true,
+  "author": "Carlos De La Torre",
+  "description": "ElectronJS and Create-React-App Template",
+  "homepage": "./",
+  "main": "public/electron.js",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "antd": "^4.20.5",
+    "axios": "^0.25.0",
+    "mini-dynamic-antd-theme": "^0.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
+    "recoil": "^0.6.1",
+    "recoil-nexus": "^0.3.15",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron:start": "concurrently -k \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electronmon .\"",
+    "electron:package:win": "yarn build && electron-builder -w -c.extraMetadata.main=build/electron.js"
   },
   "eslintConfig": {
     "extends": [
@@ -25,14 +35,45 @@
   },
   "browserslist": {
     "production": [
+      "last 1 electron version",
       ">0.2%",
       "not dead",
       "not op_mini all"
     ],
     "development": [
+      "last 1 electron version",
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.2",
+    "cross-env": "^7.0.3",
+    "electron": "^21.1.1",
+    "electron-builder": "^5.5.0",
+    "electronmon": "^2.0.2",
+    "react-scripts": "^5.0.1",
+    "wait-on": "^6.0.1"
+  },
+  "build": {
+    "appId": "com.electron.myapp",
+    "productName": "My Electron App",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "public"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "deb"
+    }
   }
 }
